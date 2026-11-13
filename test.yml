@@ -13,7 +13,7 @@ pool:
   vmImage: ubuntu-latest
 
 variables:
-  system.debug: true
+  system.debug: false
 
 steps:
 - checkout: self

@@ -1,9 +1,30 @@
-stages:
-- stage: Test
-  jobs:
-  - job: Test
-    pool:
-      vmImage: 'ubuntu-latest'
-    continueOnError: true
-    steps:
-    - script: echo "hello world"
+trigger: none
+
+parameters:
+- name: mode
+  type: string
+  default: blobless
+  values:
+  - shallow
+  - blobless
+  - sparse
+
+pool:
+  vmImage: ubuntu-latest
+
+variables:
+  system.debug: true
+
+steps:
+- checkout: self
+  fetchDepth: 1
+  fetchTags: false
+
+  ${{ if ne(parameters.mode, 'shallow') }}:
+    fetchFilter: 'blob:none'
+
+  ${{ if eq(parameters.mode, 'sparse') }}:
+    sparseCheckoutPatterns: '/Documentation/'
+
+  env:
+    GIT_TRACE: '1'

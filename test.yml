@@ -3,7 +3,7 @@ stages:
   jobs:
   - job: Test
     pool:
-      vmImage: 'ubuntu-latst'
+      vmImage: 'ubuntu-latest'
     continueOnError: true
     steps:
     - script: echo "hello world"
